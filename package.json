@@ -1,0 +1,41 @@
+{
+  "name": "gulp-xrm",
+  "description": "Gulp build task to continuously scaffold an xrm platform",
+  "version": "0.1.0",
+  "author": {
+    "name": "BclEx",
+    "url": "https://github.com/BclEx"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BclEx/gulp-xrm"
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha test"
+  },
+  "files": [
+    "tasks"
+  ],
+  "dependencies": {
+    "gulp-util": "^3.0",
+    "object-assign": "^4.0.1",
+    "through2": "^2.0.0"
+  },
+  "devDependencies": {
+    "debug": "^2.2.0",
+    "generator-xrm": "^1.0.4",
+    "gulp": "^3.8.11",
+    "mocha": "^2.2.1",
+    "yeoman-environment": "^1.2.7"
+  },
+  "keywords": [
+    "gulpplugin",
+    "gulp",
+    "xrm"
+  ],
+  "engines": {
+    "node": ">= 0.10.0"
+  }
+}
