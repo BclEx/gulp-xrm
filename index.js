@@ -21,7 +21,14 @@ var PLUGIN_NAME = 'gulp-xrm';
 // Main Gulp Xrm function
 //////////////////////////////
 var gulpXrm = function gulpXrm(options, sync) {
+
   return through.obj(function (file, enc, cb) {
+    if (options.limit == 0) {
+      return cb(null, file);
+    } else if (options.limit > 0) {
+      options.limit = options.limit - 1;
+    }
+    
     if (file.isNull()) {
       return cb(null, file);
     }
@@ -56,8 +63,9 @@ var gulpXrm = function gulpXrm(options, sync) {
 
     function addInQueue(file, dest) {
       // Read file source.
-      var nameParts = getObjectNameParts(path.basename(file.path, '.js'), '');
+      var nameParts = getObjectNameParts(path.basename(file.path, '.js'));
       var ctx = eval('[' + file.contents.toString() + ']')[0];
+      ctx.searchPaths = [path.dirname(file.path)];
       ctx.schemaName = nameParts[0];
       var args = [ctx, nameParts[1], dest, opts];
       //addMethod(process, args, file);
@@ -151,7 +159,7 @@ module.exports = gulpXrm;
 function getObjectNameParts(objectName) {
   var pieces = objectName.split('.');
   if (!pieces || pieces.length === 1) {
-    return [null, pieces ? pieces[0] : objectName];
+    return ['dbo', pieces ? pieces[0] : objectName];
   }
   return [pieces[0], pieces[1]];
 }
