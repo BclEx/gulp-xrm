@@ -17,6 +17,14 @@ var assign = require('object-assign');
 
 var PLUGIN_NAME = 'gulp-xrm';
 
+function getObjectNameParts(objectName) {
+  var pieces = objectName.split('.');
+  if (!pieces || pieces.length === 1) {
+    return ['dbo', pieces ? pieces[0] : objectName];
+  }
+  return [pieces[0], pieces[1]];
+}
+
 //////////////////////////////
 // Main Gulp Xrm function
 //////////////////////////////
@@ -28,7 +36,7 @@ var gulpXrm = function gulpXrm(options, sync) {
     } else if (options.limit > 0) {
       options.limit = options.limit - 1;
     }
-    
+
     if (file.isNull()) {
       return cb(null, file);
     }
@@ -56,7 +64,7 @@ var gulpXrm = function gulpXrm(options, sync) {
       options['skip-install'] = true;
       ctx.name = name;
       options.dest = dest;
-      this.env.run(['xrm', ctx], options, function (err) {
+      this.env.run(['xrm-core', ctx], options, function (err) {
         debug('Finished ' + name + ' processing');
       });
     };
@@ -155,11 +163,3 @@ gulpXrm.logError = function logError(error) {
 };
 
 module.exports = gulpXrm;
-
-function getObjectNameParts(objectName) {
-  var pieces = objectName.split('.');
-  if (!pieces || pieces.length === 1) {
-    return ['dbo', pieces ? pieces[0] : objectName];
-  }
-  return [pieces[0], pieces[1]];
-}
