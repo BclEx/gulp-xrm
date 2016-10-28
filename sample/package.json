@@ -1,0 +1,13 @@
+{
+  "name": "Name",
+  "description": "",
+  "version": "0.0.1",
+  "scripts": {
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-xrm": "^0.1.1",
+  }
+}

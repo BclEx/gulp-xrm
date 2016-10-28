@@ -59,30 +59,31 @@ var gulpXrm = function gulpXrm(options, sync) {
       console.error(false ? err.stack : err.message);
     });
 
-    function process(ctx, name, dest, options) {
+    function process(ctx, name, opts, template, dest) {
       debug('Running ' + name);
-      options['skip-install'] = true;
+      opts['skip-install'] = true;
       ctx.name = name;
-      options.dest = dest;
-      this.env.run(['xrm-core', ctx], options, function (err) {
+      // opts.template = template;
+      // opts.dest = dest;
+      this.env.run(['xrm-core', ctx], opts, function (err) {
         debug('Finished ' + name + ' processing');
       });
     };
 
-    function addInQueue(file, dest) {
+    function addInQueue(file, template, dest) {
       // Read file source.
       var nameParts = getObjectNameParts(path.basename(file.path, '.js'));
       var ctx = eval('[' + file.contents.toString() + ']')[0];
       ctx.searchPaths = [path.dirname(file.path)];
       ctx.schemaName = nameParts[0];
-      var args = [ctx, nameParts[1], dest, opts];
+      var args = [ctx, nameParts[1], opts, template, dest];
       //addMethod(process, args, file);
       debug('Queueing ' + nameParts[1]);
       process.apply(self, args);
     }
 
     this.env.lookup(function () {
-      addInQueue(file, opts.dest)
+      addInQueue(file, opts.template, opts.dest)
       cb(null, file);
     }.bind(this));
 
